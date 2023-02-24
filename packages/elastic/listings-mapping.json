@@ -1,0 +1,57 @@
+{
+  "mappings": {
+    "properties": {
+      "storefront_address": {
+        "type": "keyword"
+      },
+      "storefront_resource_id": {
+        "type": "integer"
+      },
+      "listing_resource_id": {
+        "type": "integer"
+      },
+      "nft_type_id": {
+        "type": "keyword"
+      },
+      "nft_uuid": {
+        "type": "integer"
+      },
+      "nft_id": {
+        "type": "integer"
+      },
+      "sale_payment_vault_type_id": {
+        "type": "keyword"
+      },
+      "sale_price": {
+        "type": "double"
+      },
+      "custom_id": {
+        "type": "keyword"
+      },
+      "commission_amount": {
+        "type": "double"
+      },
+      "allowed_commission_receivers": {
+        "type": "text"
+      },
+      "expiry": {
+        "type": "date"
+      },
+      "purchased": {
+        "type": "boolean"
+      },
+      "commission_receiver": {
+        "type": "keyword"
+      },
+      "created_at": {
+        "type": "date"
+      },
+      "completed_at": {
+        "type": "date"
+      },
+      "storefront_version": {
+        "type": "keyword"
+      }
+    }
+  }
+}
