@@ -16,12 +16,16 @@ docker --version
 docker compose version
 ```
 
+- `Make`
+
+```bash
+make --version
+```
+
 ## Setup
 
 ```bash
-docker compose up -d
-
-bash bin/setup.sh
+make setup
 
 curl -XPOST localhost:9200/listings/_create/853563399 -H "Content-Type: application/json" -d @packages/elastic/available-listing-V2.json | jq
 
