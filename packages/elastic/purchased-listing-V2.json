@@ -1,0 +1,21 @@
+{
+  "storefront_address": "0xf84dad1528ae625b",
+  "listing_resource_id": 776378930,
+  "nft_type_id": "A.87ca73a41bb50ad5.Golazos.NFT",
+  "nft_uuid": 71226420,
+  "nft_id": 71226420,
+  "sale_payment_vault_type_id": "A.ead892083b3e2c6c.DapperUtilityCoin.Vault",
+  "sale_price": 2,
+  "custom_id": "DAPPER_MARKETPLACE",
+  "commission_amount": 0,
+  "allowed_commission_receivers": [
+    "0x87ca73a41bb50ad5"
+  ],
+  "expiry": "1971-01-20T14:53:30.888Z",
+  "purchased": true,
+  "commission_receiver": "0x87ca73a41bb50ad5",
+  "created_at": "2023-01-21T11:55:06.093Z",
+  "completed_at": "2023-01-27T03:47:22.128Z",
+  "storefront_version": "V2",
+  "storefront_resource_id": 506242189
+}
