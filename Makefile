@@ -3,12 +3,22 @@ start-containers:
 	@echo "Starting containers..."
 	docker compose up -d
 
+.PHONY: generate-cursor-files
+generate-cursor-files:
+	@echo "Generating indexer cursor files..."
+	rm -f packages/indexer/data/cursorV2 && touch packages/indexer/data/cursorV2
+
 .PHONY: setup-es-index
 setup-es-index: bin/setup.sh
 	@echo "Setting up Elasticsearch listings index"
 	bash bin/setup.sh
 
-setup: start-containers setup-es-index
+setup: start-containers generate-cursor-files setup-es-index
+
+.PHONY: index-events
+index-events:
+	@echo "Indexing storefront listings events..."
+	cd packages/indexer && pnpm run dev
 
 .PHONY: stop-containers
 stop-containers:
