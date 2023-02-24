@@ -1,4 +1,20 @@
-# wuphf-moments
+# WUPHF For Moments
+
+## Requirements
+
+Make sure that you have installed:
+
+- `Docker`
+
+```bash
+docker --version
+```
+
+- `Docker compose`
+
+```bash
+docker compose version
+```
 
 ## Setup
 
