@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { bulkInsert } from "../elastic";
 import { sleep } from "../lib";
 import { Listing } from "../types/Listing";
 import { ListingV2Event } from "../types/ListingV2Event";
@@ -61,6 +62,7 @@ export async function run() {
       {
         if (availableEvents.length) {
           const availableListings = availableEvents.map(mapEventToListing);
+          await bulkInsert(availableListings);
           console.log(
             "Imported",
             availableListings.length,
@@ -72,6 +74,7 @@ export async function run() {
       {
         if (completedEvents.length) {
           const completedListings = completedEvents.map(mapEventToListing);
+          await bulkInsert(completedListings);
           console.log(
             "Imported",
             completedListings.length,
