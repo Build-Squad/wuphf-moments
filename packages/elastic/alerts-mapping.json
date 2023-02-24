@@ -1,0 +1,20 @@
+{
+  "mappings": {
+    "properties": {
+      "nft_id": {
+        "type": "integer"
+      },
+      "rules": {
+        "type": "nested",
+        "properties": {
+          "email": {
+            "type": "keyword"
+          },
+          "price_threshold": {
+            "type": "double"
+          }
+        }
+      }
+    }
+  }
+}

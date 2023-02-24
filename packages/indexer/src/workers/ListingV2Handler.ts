@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { bulkInsert } from "../elastic";
+import { bulkInsert, matchingAlerts } from "../elastic";
 import { sleep } from "../lib";
 import { Listing } from "../types/Listing";
 import { ListingV2Event } from "../types/ListingV2Event";
@@ -68,6 +68,17 @@ export async function run() {
             availableListings.length,
             "NFTstorefrontV2.ListingAvailable events"
           );
+          const alerts = await matchingAlerts(availableListings);
+          alerts.forEach((alert: any) => {
+            alert._source.rules.forEach((rule: any) => {
+              const listing = availableListings.find((e) => e.nftID === alert._source.nft_id);
+              if (listing != undefined && rule.price_threshold < listing.salePrice) {
+                console.log(
+                  `Hey there, ${rule.email}. We just wanted to let you know that the sale price for NFT ${alert._source.nft_id}, is currently at ${listing?.salePrice}`
+                );
+              }
+            });
+          });
         }
       }
 

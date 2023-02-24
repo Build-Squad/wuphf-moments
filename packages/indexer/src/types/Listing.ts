@@ -6,7 +6,7 @@ export interface Listing {
   nftUUID?: number;
   nftID: number;
   salePaymentVaultTypeID?: string;
-  salePrice?: number;
+  salePrice: number;
   customID?: string;
   commissionAmount?: number;
   commissionReceivers?: string[];

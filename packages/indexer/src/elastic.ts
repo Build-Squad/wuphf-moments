@@ -6,6 +6,27 @@ const client = new Client({
   node: "http://localhost:9200"
 });
 
+export async function matchingAlerts(listings: Listing[]) {
+  const nft_ids = listings.map((listing) => listing.nftID);
+  const elasticSearchIndex = "alerts";
+  const query = {
+    bool: {
+      must: [
+        {
+          terms: { nft_id: nft_ids }
+        }
+      ]
+    }
+  };
+
+  const results = await client.search({
+    index: elasticSearchIndex,
+    query: query
+  });
+
+  return results.hits.hits
+}
+
 export async function bulkInsert(listing: Array<Listing>) {
   const elasticSearchIndex = "listings";
   const operations = listing.flatMap((doc) => [

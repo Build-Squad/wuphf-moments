@@ -29,3 +29,5 @@ stop-containers:
 delete-es-index:
 	@echo "Deleting Elasticsearch listings index"
 	curl -XDELETE localhost:9200/listings
+	@echo "Deleting Elasticsearch alerts index"
+	curl -XDELETE localhost:9200/alerts

@@ -54,6 +54,10 @@ curl -XPOST localhost:9200/listings/_create/904984337 -H "Content-Type: applicat
 curl -XPOST localhost:9200/listings/_create/903660704 -H "Content-Type: application/json" -d @packages/elastic/purchased-listing-V2.json | jq
 
 curl -XGET localhost:9200/listings/_search | jq
+
+curl -XPOST localhost:9200/alerts/_create/737216709 -H "Content-Type: application/json" -d @packages/elastic/alerts-document.json | jq
+
+curl -XGET localhost:9200/alerts/_search | jq
 ```
 
 ## Index events
