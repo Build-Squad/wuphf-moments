@@ -72,6 +72,28 @@ You can view how many documents have been indexed to the `listings` index, by ru
 curl -XGET localhost:9200/listings/_count | jq
 ```
 
+## Run the API
+
+```bash
+cd packages/api
+npm install
+npm start
+```
+
+There are 3 available endpoints:
+
+- View alerts for an address,
+- Create a new alert for an address,
+- Remove an alert for an address
+
+```bash
+curl -XGET 'localhost:3000/alerts/0x9a0766d93b6608b7' -H "Content-Type: application/json" | jq
+
+curl -XPOST localhost:3000/alerts/ -H "Content-Type: application/json" -d @packages/elastic/alerts-document-2.json
+
+curl -XDELETE 'localhost:3000/alerts/737216709/0xee82856bf20e2c07' -H "Content-Type: application/json"
+```
+
 ## Miscellaneous
 
 There are more `Make` recipes, than listed above, to assist with local development:
