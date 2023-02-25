@@ -1,7 +1,10 @@
 import React from 'react';
 import { Form, Button, Message, Input, Icon } from 'semantic-ui-react';
 
-export default function AppForm() {
+export default function AppForm(
+  { onAlertCreate }:
+  { onAlertCreate: (formPayload: any) => void}
+) {
   return (
     <>
       <Message attached icon>

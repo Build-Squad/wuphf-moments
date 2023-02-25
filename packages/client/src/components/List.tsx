@@ -1,6 +1,9 @@
 import { Item, Message, Icon, Label } from 'semantic-ui-react'
 
-export default function List() {
+export default function List(
+  { alerts, onDelete }:
+  { alerts: any, onDelete: (nftId: number) => void }
+) {
   return (
     <>
       <Message attached icon>
