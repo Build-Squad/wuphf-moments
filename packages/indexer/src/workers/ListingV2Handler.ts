@@ -72,7 +72,7 @@ export async function run() {
           alerts.forEach((alert: any) => {
             alert._source.rules.forEach((rule: any) => {
               const listing = availableListings.find((e) => e.nftID === alert._source.nft_id);
-              if (listing != undefined && rule.price_threshold < listing.salePrice) {
+              if (listing != undefined && listing.salePrice <= rule.price_threshold) {
                 console.log(
                   `Hey there, ${rule.email}. We just wanted to let you know that the sale price for NFT ${alert._source.nft_id}, is currently at ${listing?.salePrice}`
                 );
