@@ -2,10 +2,12 @@
   "nft_id": 737216709,
   "rules": [
     {
+      "address": "0x9a0766d93b6608b7",
       "email": "john.doe@example.com",
       "price_threshold": 185.0
     },
     {
+      "address": "0xee82856bf20e2aa6",
       "email": "jane.doe@example.com",
       "price_threshold": 175.0
     }
