@@ -112,7 +112,6 @@ class AlertsService {
     if (results.hits.hits.length == 1) {
       const document = results.hits.hits[0]._source;
       document.rules = document.rules.filter((rule) => {
-        console.log(rule.address == address);
         return rule.address != address;
       });
       const result = await this.client.update({
