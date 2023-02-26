@@ -1,21 +1,23 @@
 import React, { useState} from 'react'
-import { Container, Header } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
+import ConnectWallet from './Header';
+
 
 import 'fomantic-ui-css/semantic.css'
 import './App.css'
 
-import Form from './Form'
-import List from './List'
-
+import Form from './Form';
+import List from './List';
 
 const commonHeaders= new Headers({
   'Content-Type': 'application/json'
 })
 
 function App() {
-  
+
   const [alerts, setAlerts] = useState([])
   const [accountId, setAccountId] = useState(null)
+  const [user, setUser] = useState();
 
   const fetchList = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_BASE}/${accountId}`, {
@@ -56,13 +58,11 @@ function App() {
       console.error(response)
     }
   }
-  
+
   return (
     <>
       <Container textAlign="center" as="header">
-        <Header as="h1">
-          WUPHF For Moments
-        </Header>
+        <ConnectWallet user={ user } onUserSet={ setUser } />
       </Container>
       <Container as="article">
         <Form onAlertCreate={ handleAlertCreate }/>
