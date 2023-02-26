@@ -45,7 +45,7 @@ class AlertsService {
       bool: {
         must: [
           {
-            term: { nft_id: payload.nft_id }
+            term: { edition_id: payload.edition_id }
           }
         ]
       }
@@ -61,7 +61,7 @@ class AlertsService {
       payload.rules = payload.rules.concat(rules);
       const result = await this.client.update({
         index: this.index,
-        id: payload.nft_id,
+        id: payload.edition_id,
         doc: payload
       });
 
@@ -70,19 +70,19 @@ class AlertsService {
 
     const result = await this.client.index({
       index: this.index,
-      id: payload.nft_id,
+      id: payload.edition_id,
       document: payload
     });
 
     return result;
   }
 
-  deleteAlert = async (nft_id, address) => {
+  deleteAlert = async (edition_id, address) => {
     const query = {
       bool: {
         must: [
           {
-            term: { nft_id: nft_id }
+            term: { edition_id: edition_id }
           },
           {
             nested: {
@@ -116,7 +116,7 @@ class AlertsService {
       });
       const result = await this.client.update({
         index: this.index,
-        id: nft_id,
+        id: edition_id,
         doc: document
       });
 

@@ -17,5 +17,7 @@
   "storefront_version": "V2",
   "completed_at": "2023-02-24T04:59:25.623Z",
   "commission_receiver": null,
-  "storefront_resource_id": 723687301
+  "storefront_resource_id": 723687301,
+  "edition_id": "132",
+  "serial_number": "335"
 }

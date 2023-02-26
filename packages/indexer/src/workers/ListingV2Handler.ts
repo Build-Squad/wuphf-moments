@@ -5,6 +5,7 @@ import { bulkInsert, matchingAlerts } from "../elastic";
 import { sleep } from "../lib";
 import { Listing } from "../types/Listing";
 import { ListingV2Event } from "../types/ListingV2Event";
+import { getMomentNFTProperties } from "../cadence/scripts/getMomentNFTProperties";
 
 fcl.config({
   "accessNode.api": "https://rest-mainnet.onflow.org"
@@ -61,7 +62,7 @@ export async function run() {
 
       {
         if (availableEvents.length) {
-          const availableListings = availableEvents.map(mapEventToListing);
+          const availableListings = await Promise.all(availableEvents.map(mapEventToListing));
           await bulkInsert(availableListings);
           console.log(
             "Imported",
@@ -71,10 +72,10 @@ export async function run() {
           const alerts = await matchingAlerts(availableListings);
           alerts.forEach((alert: any) => {
             alert._source.rules.forEach((rule: any) => {
-              const listing = availableListings.find((e) => e.nftID === alert._source.nft_id);
-              if (listing != undefined && listing.salePrice <= rule.price_threshold) {
+              const listing = availableListings.find((e) => e.editionID === alert._source.edition_id);
+              if (listing != undefined && listing.salePrice <= rule.min_price) {
                 console.log(
-                  `Hey there, ${rule.email}. We just wanted to let you know that the sale price for NFT ${alert._source.nft_id}, is currently at ${listing?.salePrice}`
+                  `Hey there, ${rule.email}. We just wanted to let you know that the sale price for Edition ${alert._source.edition_id}, is currently at ${listing.salePrice}. View it at https://laligagolazos.com/editions/${alert._source.edition_id} or https://laligagolazos.com/moments/${listing.nftID}`
                 );
               }
             });
@@ -84,7 +85,7 @@ export async function run() {
 
       {
         if (completedEvents.length) {
-          const completedListings = completedEvents.map(mapEventToListing);
+          const completedListings = await Promise.all(completedEvents.map(mapEventToListing));
           await bulkInsert(completedListings);
           console.log(
             "Imported",
@@ -133,14 +134,15 @@ async function getEvents(
   });
 }
 
-function mapEventToListing({
+async function mapEventToListing({
+  blockHeight,
   type,
   blockTimestamp,
   data,
-}: ListingV2Event): Listing {
+}: ListingV2Event): Promise<Listing> {
   const isCompletedEvent = type === NFTStorefrontV2Event.ListingCompleted;
 
-  return {
+  const listing: Listing = {
     storefrontAddress: data.storefrontAddress,
     storefrontResourceID: data.storefrontResourceID
       ? parseInt(data.storefrontResourceID)
@@ -161,4 +163,22 @@ function mapEventToListing({
     completedAt: isCompletedEvent ? new Date(blockTimestamp) : undefined,
     storefrontVersion: STOREFRONT_VERSION
   };
+
+  if (type === NFTStorefrontV2Event.ListingAvailable) {
+    try {
+      const momentProperties = await fcl.query({
+        cadence: `${getMomentNFTProperties}`,
+        args: (arg: any, t: any) => [
+          arg(data.storefrontAddress, t.Address),
+          arg(data.nftID, t.UInt64),
+        ],
+        blockHeight: blockHeight
+      });
+      listing.editionID = parseInt(momentProperties.editionID);
+      listing.serialNumber = parseInt(momentProperties.serialNumber);
+    } catch (err) {
+    }
+  }
+
+  return listing;
 }

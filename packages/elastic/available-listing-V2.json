@@ -14,5 +14,7 @@
   "expiry": "2075-04-25T10:49:55.500Z",
   "purchased": false,
   "created_at": "2023-02-24T12:19:32.020Z",
-  "storefront_version": "V2"
+  "storefront_version": "V2",
+  "edition_id": "132",
+  "serial_number": "335"
 }

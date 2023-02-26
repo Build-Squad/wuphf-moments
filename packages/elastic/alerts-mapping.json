@@ -1,7 +1,7 @@
 {
   "mappings": {
     "properties": {
-      "nft_id": {
+      "edition_id": {
         "type": "integer"
       },
       "rules": {
@@ -13,7 +13,7 @@
           "email": {
             "type": "keyword"
           },
-          "price_threshold": {
+          "min_price": {
             "type": "double"
           }
         }

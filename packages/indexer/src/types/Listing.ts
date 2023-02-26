@@ -17,4 +17,6 @@ export interface Listing {
   commissionReceiver?: string;
   completedAt?: Date;
   storefrontVersion: string;
+  editionID?: number;
+  serialNumber?: number;
 }

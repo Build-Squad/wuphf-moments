@@ -51,6 +51,12 @@
       },
       "storefront_version": {
         "type": "keyword"
+      },
+      "edition_id": {
+        "type": "integer"
+      },
+      "serial_number": {
+        "type": "integer"
       }
     }
   }

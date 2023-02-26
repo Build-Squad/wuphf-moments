@@ -7,13 +7,17 @@ const client = new Client({
 });
 
 export async function matchingAlerts(listings: Listing[]) {
-  const nft_ids = listings.map((listing) => listing.nftID);
+  let edition_ids = listings.map((listing) => listing.editionID);
+  edition_ids = edition_ids.filter((edition_id) => edition_id != null);
+  if (edition_ids.length == 0) {
+    return [];
+  }
   const elasticSearchIndex = "alerts";
   const query = {
     bool: {
       must: [
         {
-          terms: { nft_id: nft_ids }
+          terms: { edition_id: edition_ids }
         }
       ]
     }
@@ -92,7 +96,9 @@ function mapListingToDocument(listing: Listing): ListingDocument {
     commission_receiver: listing.commissionReceiver,
     created_at: listing.createdAt,
     completed_at: listing.completedAt,
-    storefront_version: listing.storefrontVersion
+    storefront_version: listing.storefrontVersion,
+    edition_id: listing.editionID,
+    serial_number: listing.serialNumber
   };
 }
 
@@ -114,4 +120,6 @@ interface ListingDocument {
   created_at?: Date;
   completed_at?: Date;
   storefront_version: string;
+  edition_id?: number;
+  serial_number?: number;
 }

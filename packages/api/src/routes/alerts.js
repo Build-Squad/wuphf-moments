@@ -17,9 +17,9 @@ function initAlertsRouter(AlertsService) {
     return res.status(200).send({ result });
   });
 
-  router.delete('/alerts/:nft_id/:address', async (req, res) => {
+  router.delete('/alerts/:edition_id/:address', async (req, res) => {
     const result =
-      await AlertsService.deleteAlert(req.params.nft_id, req.params.address);
+      await AlertsService.deleteAlert(req.params.edition_id, req.params.address);
 
     return res.status(200).send({ result });
   });
