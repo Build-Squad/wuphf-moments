@@ -14,9 +14,10 @@ const commonHeaders= new Headers({
 })
 
 function App() {
-  
+
   const [alerts, setAlerts] = useState([])
   const [accountId, setAccountId] = useState(null)
+  const [user, setUser] = useState();
 
   const fetchList = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_BASE}/${accountId}`, {
@@ -57,11 +58,11 @@ function App() {
       console.error(response)
     }
   }
-  
+
   return (
     <>
       <Container textAlign="center" as="header">
-        <ConnectWallet />
+        <ConnectWallet user={ user } onUserSet={ setUser } />
       </Container>
       <Container as="article">
         <Form onAlertCreate={ handleAlertCreate }/>

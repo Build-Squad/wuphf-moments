@@ -3,12 +3,11 @@ import {getFclConfiguration} from '../utils/FclConfig';
 import {Header} from 'semantic-ui-react';
 const fcl = getFclConfiguration();
 
-const ConnectWallet = () => {
-  const [user, setUser] = useState();
+const ConnectWallet = ({ user, onUserSet }) => {
 
   useEffect(() => {
-    fcl.currentUser().subscribe(setUser);
-  }, []);
+    fcl.currentUser().subscribe(onUserSet);
+  }, [onUserSet]);
 
   const onConnectWallet = () => {
     fcl.authenticate();
