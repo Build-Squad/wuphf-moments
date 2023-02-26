@@ -44,7 +44,7 @@ function OneAlert({ alert, onDelete }: { alert: any, onDelete: () => void }) {
             <Icon name="dollar" />{ alert.min_price }
             <Label.Detail>Alert price</Label.Detail>
           </Label>
-          <Label color={ current_price > alert.min_price ? 'green' : 'red' }>
+          <Label color={ current_price > alert.min_price ? 'red' : 'green' }>
             <Icon name="dollar"/>{ current_price }[fake]
             <Label.Detail>Current price</Label.Detail>
           </Label>
