@@ -90,7 +90,11 @@ curl -XDELETE 'localhost:3000/alerts/132/0xee82856bf20e2c07' -H "Content-Type: a
 
 ## Run the front-end
 
+```bash
+make start-client
+```
 
+Will run the React dev server
 
 ## Miscellaneous
 

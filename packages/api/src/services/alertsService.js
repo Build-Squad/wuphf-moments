@@ -10,6 +10,7 @@ class AlertsService {
         return result.hits.hits
           .map((doc) => ({
             edition_id: doc._source.edition_id,
+            // keep only the rule matching the address
             ...doc._source.rules.find((rule) => rule.address == address)
           })
         );

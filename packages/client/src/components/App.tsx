@@ -46,7 +46,6 @@ function App() {
 
   const handleAlertCreate = useCallback(async (formPayload: any) => {
     // TODO asks the user to sign it
-    console.log(formPayload)
     const response = await fetch(`${process.env.REACT_APP_API_BASE}/`, {
       method: 'POST',
       headers: commonHeaders,
