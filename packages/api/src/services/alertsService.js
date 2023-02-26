@@ -4,10 +4,15 @@ class AlertsService {
     this.index = 'alerts';
   }
 
-  finalResut(result) {
+  finalResut(result, address) {
     if (result.hasOwnProperty('hits')) {
       if (result.hits.hasOwnProperty('hits')) {
-        return result.hits.hits;
+        return result.hits.hits
+          .map((doc) => ({
+            edition_id: doc._source.edition_id,
+            ...doc._source.rules.find((rule) => rule.address == address)
+          })
+        );
       }
     }
 
@@ -37,15 +42,17 @@ class AlertsService {
       query: query
     });
 
-    return this.finalResut(result);
+    return this.finalResut(result, address);
   };
 
   createNewAlert = async (payload) => {
+    const { edition_id, ...new_rule } = payload;
+
     const query = {
       bool: {
         must: [
           {
-            term: { edition_id: payload.edition_id }
+            term: { edition_id }
           }
         ]
       }
@@ -57,21 +64,41 @@ class AlertsService {
     });
 
     if (results.hits.hits.length == 1) {
-      const rules = results.hits.hits[0]._source.rules;
-      payload.rules = payload.rules.concat(rules);
+      let rules = results.hits.hits[0]._source.rules;
+      let rule_exists = false
+      // replace an existing rule with the same address
+      rules = rules.map((rule) => {
+        if (rule.address == new_rule.address) {
+          rule_exists = true;
+          return new_rule;
+        } else {
+          return rule;
+        }
+      });
+      // add the new rule if none already exists with same address
+      if (!rule_exists) {
+        rules.push(new_rule);
+      }
       const result = await this.client.update({
         index: this.index,
-        id: payload.edition_id,
-        doc: payload
+        id: edition_id,
+        doc: {
+          edition_id,
+          rules
+        }
       });
 
       return result;
     }
 
+    // add the new rule in a new document
     const result = await this.client.index({
       index: this.index,
-      id: payload.edition_id,
-      document: payload
+      id: edition_id,
+      document: {
+        edition_id,
+        rules: [ new_rule ]
+      }
     });
 
     return result;

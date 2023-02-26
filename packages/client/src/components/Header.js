@@ -1,7 +1,8 @@
-import {useState, useEffect} from 'react';
-import {getFclConfiguration} from '../utils/FclConfig';
-import {Header} from 'semantic-ui-react';
-const fcl = getFclConfiguration();
+import React, {useEffect } from 'react'
+import { getFclConfiguration } from '../utils/FclConfig'
+import { Header } from 'semantic-ui-react'
+
+const fcl = getFclConfiguration()
 
 const ConnectWallet = ({ user, onUserSet }) => {
 
@@ -21,8 +22,8 @@ const ConnectWallet = ({ user, onUserSet }) => {
     <Header>
       WUPHF For Moments
       <div>
-        <div class="elementor-widget-container">
-          <div class="elementor-button-wrapper">
+        <div className="elementor-widget-container">
+          <div className="elementor-button-wrapper">
           { user && user.addr ? (
           <button onClick={ onDisconnectWallet }>Disconnect Wallet</button>
         ) : (

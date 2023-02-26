@@ -1,10 +1,23 @@
-import React from 'react';
-import { Form, Button, Message, Input, Icon } from 'semantic-ui-react';
+import React from 'react'
+import { Form, Button, Message, Input, Icon } from 'semantic-ui-react'
+
+import type { FormEvent } from 'react'
 
 export default function AppForm(
   { onAlertCreate }:
   { onAlertCreate: (formPayload: any) => void}
 ) {
+  
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    onAlertCreate({
+      edition_id: formData.get('edition'),
+      min_price: formData.get('price'),
+      email: formData.get('email')
+    })
+  }
+  
   return (
     <>
       <Message attached icon>
@@ -16,11 +29,11 @@ export default function AppForm(
           <p>blah</p>
         </Message.Content>
       </Message>
-      <Form className="attached segment">
+      <Form className="attached segment" onSubmit={ handleSubmit } method="POST">
         <Form.Field>
-          <label htmlFor="nft">NFT Id</label>
+          <label htmlFor="edition">Edition Id</label>
           <Input 
-            type="text" name="nft" id="nft"
+            type="text" name="edition" id="edition"
             placeholder="0000"
             icon="barcode" iconPosition="left" 
           />
