@@ -20,6 +20,11 @@ index-events:
 	@echo "Indexing storefront listings events..."
 	cd packages/indexer && pnpm run dev
 
+.PHONY: start-api
+start-api:
+	@echo "Starting API..."
+	cd packages/api && npm start
+
 .PHONY: stop-containers
 stop-containers:
 	@echo "Stopping containers..."
