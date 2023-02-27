@@ -12,7 +12,7 @@ export default function AppForm(
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     onAlertCreate({
-      edition_id: formData.get('edition'),
+      edition_id: parseInt(formData.get('edition') as string),
       min_price: parseFloat(formData.get('price') as string),
       email: formData.get('email')
     })
