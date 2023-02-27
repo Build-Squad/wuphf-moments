@@ -28,7 +28,7 @@ start-api:
 .PHONY: start-client
 start-client:
 	@echo "Starting React web server..."
-	cd packages/client && npm start
+	cd packages/client && cp .env.example .env && npm start
 
 .PHONY: stop-containers
 stop-containers:
