@@ -18,6 +18,7 @@ importers:
   packages/api:
     specifiers:
       '@elastic/elasticsearch': ^8.5.0
+      '@onflow/fcl': ^1.3.2
       body-parser: ^1.20.1
       cors: ^2.8.5
       dotenv: ^16.0.3
@@ -27,6 +28,7 @@ importers:
       nodemon: ^2.0.20
     dependencies:
       '@elastic/elasticsearch': 8.6.0
+      '@onflow/fcl': 1.3.2
       body-parser: 1.20.2
       cors: 2.8.5
       dotenv: 16.0.3
@@ -45,6 +47,7 @@ importers:
       '@types/node': ^16.7.13
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
+      buffer: ^6.0.3
       fomantic-ui-css: ^2.9.2
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -54,6 +57,7 @@ importers:
       web-vitals: ^2.1.0
     dependencies:
       '@onflow/fcl': 1.3.2
+      buffer: 6.0.3
       fomantic-ui-css: 2.9.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0

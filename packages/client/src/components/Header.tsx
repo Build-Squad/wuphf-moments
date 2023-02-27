@@ -13,7 +13,7 @@ const ConnectWallet = (
 ) => {
 
   useEffect(() => {
-    fcl.currentUser().subscribe(onUserSet);
+    fcl.currentUser.subscribe(onUserSet);
   }, [onUserSet])
 
   const onConnectWallet = () => {

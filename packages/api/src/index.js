@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { Client } from '@elastic/elasticsearch';
+import * as fcl from '@onflow/fcl';
 import initApp from './app.js';
 import { getConfig } from './config.js';
 
@@ -13,11 +14,12 @@ async function run() {
   const elasticSearchClient = new Client({
     node: config.node
   });
+  fcl.config(config.fcl);
 
   console.log('Starting API server ....');
   console.log(config);
-
-  const app = initApp(elasticSearchClient);
+  
+  const app = initApp(elasticSearchClient, fcl);
   const server = app.listen(config.port, () => {
     console.log(`Listening on port ${config.port}!`);
   });
