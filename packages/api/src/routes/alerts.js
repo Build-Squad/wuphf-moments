@@ -1,4 +1,5 @@
 import express from 'express';
+import { MismatchSignaturesError } from '../services/alertsService.js';
 
 function initAlertsRouter(AlertsService) {
   const router = express.Router();
@@ -11,10 +12,16 @@ function initAlertsRouter(AlertsService) {
   });
 
   router.post('/alerts/', async (req, res) => {
-    const result =
-      await AlertsService.createNewAlert(req.body);
-
-    return res.status(200).send({ result });
+    try {
+      const result =
+        await AlertsService.createNewAlert(req.body);
+      return res.status(200).send({ result });
+    } catch (error) {
+      if (error instanceof MismatchSignaturesError) {
+        return res.status(400).send(error.message);
+      }
+      throw error;
+    }
   });
 
   router.delete('/alerts/:edition_id/:address', async (req, res) => {

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@onflow/fcl": "^1.3.2",
+    "buffer": "^6.0.3",
     "fomantic-ui-css": "^2.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

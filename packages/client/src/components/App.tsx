@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Container } from 'semantic-ui-react'
-import ConnectWallet from './Header'
+import { Buffer } from 'buffer'
+import { getFclConfiguration } from '../utils/FclConfig'
 
 import 'fomantic-ui-css/semantic.css'
 import './App.css'
 
+import ConnectWallet from './Header'
 import Form from './Form'
 import List from './List'
 
@@ -13,6 +15,8 @@ import type { User } from '../types'
 const commonHeaders = new Headers({
   'Content-Type': 'application/json'
 })
+
+const fcl = getFclConfiguration()
 
 function App() {
 
@@ -52,10 +56,20 @@ function App() {
 
   const handleAlertCreate = useCallback(async (formPayload: any) => {
     // TODO asks the user to sign it
+    const payload = { address: user.addr, ...formPayload }
+    const unsigned_msg = Buffer.from(JSON.stringify(payload)).toString('hex')
+    let signatures
+    try {
+      signatures = await fcl.currentUser.signUserMessage(unsigned_msg)
+    } catch (e) {
+      console.error(e)
+      return
+    }
+
     const response = await fetch(`${process.env.REACT_APP_API_BASE}/`, {
       method: 'POST',
       headers: commonHeaders,
-      body: JSON.stringify({ address: user.addr, ...formPayload })
+      body: JSON.stringify({ payload, signatures })
     })
     if(response.ok) {
       console.info(`Alert for Edition '${formPayload.edition_id}' has been created`)
@@ -69,7 +83,7 @@ function App() {
     if( user.addr !== null) {
       fetchList()
     }
-  }, [user.addr])
+  }, [user.addr, fetchList])
   
   return (
     <>

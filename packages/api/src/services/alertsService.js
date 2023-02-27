@@ -1,7 +1,15 @@
+class MismatchSignaturesError extends Error {
+  constructor(...params) {
+    super(...params);
+    this.message = 'Invalid signatures';
+  }
+}
+
 class AlertsService {
-  constructor(elasticClient) {
+  constructor(elasticClient, fcl) {
     this.client = elasticClient;
     this.index = 'alerts';
+    this.fcl = fcl;
   }
 
   finalResut(result, address) {
@@ -18,6 +26,13 @@ class AlertsService {
     }
 
     return result;
+  }
+
+  async verifySignatures(payload, signatures) {
+    return await this.fcl.AppUtils.verifyUserSignatures(
+      Buffer.from(JSON.stringify(payload)).toString('hex'),
+      signatures
+    );
   }
 
   getAlertsForAddress = async (address) => {
@@ -47,7 +62,10 @@ class AlertsService {
   };
 
   createNewAlert = async (payload) => {
-    const { edition_id, ...new_rule } = payload;
+    if (await !this.verifySignatures(payload.payload, payload.signatures)) {
+      throw new MismatchSignaturesError();
+    }
+    const { edition_id, ...new_rule } = payload.payload;
 
     const query = {
       bool: {
@@ -155,4 +173,4 @@ class AlertsService {
   }
 }
 
-export { AlertsService };
+export { AlertsService, MismatchSignaturesError };

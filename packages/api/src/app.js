@@ -8,7 +8,7 @@ import { AlertsService } from './services/alertsService.js';
 const { json, urlencoded } = pkg;
 
 // Init App
-const initApp = (elasticSearchClient) => {
+const initApp = (elasticSearchClient, fcl) => {
   const app = express();
 
   app.use(cors());
@@ -16,7 +16,7 @@ const initApp = (elasticSearchClient) => {
   app.use(urlencoded({ extended: false }));
   app.use(
     initAlertsRouter(
-      new AlertsService(elasticSearchClient)
+      new AlertsService(elasticSearchClient, fcl),
     )
   );
 
