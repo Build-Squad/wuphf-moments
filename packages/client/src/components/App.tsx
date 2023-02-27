@@ -8,6 +8,8 @@ import './App.css'
 import Form from './Form'
 import List from './List'
 
+import type { User } from '../types'
+
 const commonHeaders = new Headers({
   'Content-Type': 'application/json'
 })
@@ -15,8 +17,12 @@ const commonHeaders = new Headers({
 function App() {
 
   const [alerts, setAlerts] = useState([])
-  const [user, setUser] = useState({
-    addr: null
+  const [user, setUser] = useState<User>({
+    addr: null,
+    cid: null,
+    loggedIn: null,
+    expiresAt: null,
+    services: []
   })
 
   const fetchList = useCallback(async () => {

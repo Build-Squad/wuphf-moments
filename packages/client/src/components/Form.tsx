@@ -7,17 +7,17 @@ export default function AppForm(
   { onAlertCreate }:
   { onAlertCreate: (formPayload: any) => void}
 ) {
-  
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     onAlertCreate({
       edition_id: formData.get('edition'),
-      min_price: formData.get('price'),
+      min_price: parseFloat(formData.get('price') as string),
       email: formData.get('email')
     })
   }
-  
+
   return (
     <>
       <Message attached icon>
@@ -39,7 +39,7 @@ export default function AppForm(
           />
         </Form.Field>
         <Form.Field>
-          <label htmlFor="price">Price threshold</label>
+          <label htmlFor="price">Min. price</label>
           <Input 
             type="number" name="price" id="price"
             step="0.01" min="0"  placeholder="0.0"

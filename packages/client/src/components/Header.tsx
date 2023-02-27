@@ -2,20 +2,26 @@ import React, {useEffect } from 'react'
 import { getFclConfiguration } from '../utils/FclConfig'
 import { Header } from 'semantic-ui-react'
 
+import type { Dispatch, SetStateAction } from 'react'
+import type { User } from '../types'
+
 const fcl = getFclConfiguration()
 
-const ConnectWallet = ({ user, onUserSet }) => {
+const ConnectWallet = (
+  { user, onUserSet }:
+  { user: User, onUserSet: Dispatch<SetStateAction<User>> }
+) => {
 
   useEffect(() => {
     fcl.currentUser().subscribe(onUserSet);
-  }, [onUserSet]);
+  }, [onUserSet])
 
   const onConnectWallet = () => {
-    fcl.authenticate();
+    fcl.authenticate()
   };
 
   const onDisconnectWallet = () => {
-    fcl.unauthenticate();
+    fcl.unauthenticate()
   };
 
   return (
@@ -33,7 +39,7 @@ const ConnectWallet = ({ user, onUserSet }) => {
         </div>
       </div>
     </Header>
-  );
-};
+  )
+}
 
-export default ConnectWallet;
+export default ConnectWallet
