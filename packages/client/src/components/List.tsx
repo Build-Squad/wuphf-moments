@@ -38,7 +38,11 @@ function OneAlert({ alert, onDelete }: { alert: any, onDelete: () => void }) {
       <Item.Image size="tiny" src="/images/wireframe/image.png" alt="Media from the NFT"/>
       <Item.Content>
         <Button circular icon='delete' floated="right" onClick={ onDelete }/>
-        <Item.Header as="a">Edition { alert.edition_id }</Item.Header>
+        <Item.Header 
+          as="a"
+          target="_blank"
+          href={ `https://laligagolazos.com/editions/${ alert.edition_id }` }
+        >Edition { alert.edition_id }</Item.Header>
         <Item.Meta>
           <Label>
             <Icon name="dollar" />{ alert.min_price }
