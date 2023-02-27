@@ -23,6 +23,7 @@ enum DapperContracts {
 const STOREFRONT_VERSION = 'V2';
 
 // Mainnet 22 spork root
+// or here: 47301730
 const ROOT_BLOCK_HEIGHT = 47169687;
 const BLOCKS_PER_REQUEST = 3000;
 const WAIT_FOR_NEXT_BLOCK = 3000;
@@ -33,7 +34,7 @@ let currentStartBlockHeight =
     readFileSync(resolve(__dirname, "../../data/cursorV2")).toString("utf-8")
   ) || ROOT_BLOCK_HEIGHT;
 
-export async function run() {
+export async function run(connections: any) {
   while (true) {
     try {
       const latestBlock = await fcl.block({ sealed: true });
@@ -74,9 +75,13 @@ export async function run() {
             alert._source.rules.forEach((rule: any) => {
               const listing = availableListings.find((e) => e.editionID === alert._source.edition_id);
               if (listing != undefined && listing.salePrice <= rule.min_price) {
-                console.log(
-                  `Hey there, ${rule.email}. We just wanted to let you know that the sale price for Edition ${alert._source.edition_id}, is currently at ${listing.salePrice}. View it at https://laligagolazos.com/editions/${alert._source.edition_id} or https://laligagolazos.com/moments/${listing.nftID}`
-                );
+                let message = `Hey there, ${rule.email}. We just wanted to let you know that the sale price for Edition ${alert._source.edition_id}, is currently at ${listing.salePrice}. View it at https://laligagolazos.com/editions/${alert._source.edition_id} or https://laligagolazos.com/moments/${listing.nftID}`;
+                for (const [address, connection] of Object.entries(connections)) {
+                  if (rule.address == address) {
+                    (connection as any).send(message);
+                  }
+                }
+                console.log(message);
               }
             });
           });

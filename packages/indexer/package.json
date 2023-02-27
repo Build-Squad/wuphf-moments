@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.5.0",
-    "@onflow/fcl": "^1.3.2"
+    "@onflow/fcl": "^1.3.2",
+    "websocket": "^1.0.34"
   }
 }
