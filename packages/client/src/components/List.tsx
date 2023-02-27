@@ -12,7 +12,7 @@ export default function List(
           <Message.Header as="h2">
             Your active alerts
           </Message.Header>
-          <p>placeholder data below</p>
+          <p>blah</p>
         </Message.Content>
       </Message>
       <Item.Group divided className="attached segment">
@@ -30,9 +30,7 @@ export default function List(
 function OneAlert({ alert, onDelete }: { alert: any, onDelete: () => void }) {
   // TODO get the current price
   const current_price = Math.round(Math.random() * 1000 * 100) / 100
-  
-  
-  
+
   return (
     <Item>
       <Item.Image size="tiny" src="/images/wireframe/image.png" alt="Media from the NFT"/>
