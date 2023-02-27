@@ -25,6 +25,11 @@ start-api:
 	@echo "Starting API..."
 	cd packages/api && npm start
 
+.PHONY: start-client
+start-client:
+	@echo "Starting React web server..."
+	cd packages/client && npm start
+
 .PHONY: stop-containers
 stop-containers:
 	@echo "Stopping containers..."

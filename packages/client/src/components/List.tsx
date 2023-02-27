@@ -1,8 +1,8 @@
-import { Item, Message, Icon, Label } from 'semantic-ui-react'
+import { Item, Message, Icon, Label, Button } from 'semantic-ui-react'
 
 export default function List(
   { alerts, onDelete }:
-  { alerts: any, onDelete: (nftId: number) => void }
+  { alerts: any[], onDelete: (nftId: number) => void }
 ) {
   return (
     <>
@@ -16,45 +16,43 @@ export default function List(
         </Message.Content>
       </Message>
       <Item.Group divided className="attached segment">
-        <Item>
-          <Item.Image size="tiny" src="/images/wireframe/image.png" />
-          <Item.Content>
-            <Item.Header as="a">NFT name A</Item.Header>
-            <Item.Meta>
-              <Label>
-                <Icon name="dollar" />25
-                <Label.Detail>Alert price</Label.Detail>
-              </Label>
-              <Label color="green">
-                <Icon name="dollar"/>20
-                <Label.Detail>Current price</Label.Detail>
-              </Label>
-            </Item.Meta>
-            <Item.Description>
-            </Item.Description>
-            <Item.Description>Additional Details from the NFT data</Item.Description>
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image size="tiny" src="/images/wireframe/image.png" />
-          <Item.Content>
-            <Item.Header as="a">NFT name B</Item.Header>
-            <Item.Meta>
-              <Label>
-                <Icon name="dollar" />
-                30
-                <Label.Detail>Alert price</Label.Detail>
-              </Label>
-              <Label color="red">
-                <Icon name="dollar"/>
-                40
-                <Label.Detail>Current price</Label.Detail>
-              </Label>
-            </Item.Meta>
-            <Item.Description>Additional Details from the NFT data</Item.Description>
-          </Item.Content>
-        </Item>
+        { alerts.map((alert: any) => <OneAlert 
+          key={ alert.edition_id }
+          alert={ alert }
+          onDelete={ () => onDelete(alert.edition_id) }
+        />) }
       </Item.Group>
     </>
   )
+}
+
+
+function OneAlert({ alert, onDelete }: { alert: any, onDelete: () => void }) {
+  // TODO get the current price
+  const current_price = Math.round(Math.random() * 1000 * 100) / 100
+  
+  
+  
+  return (
+    <Item>
+      <Item.Image size="tiny" src="/images/wireframe/image.png" alt="Media from the NFT"/>
+      <Item.Content>
+        <Button circular icon='delete' floated="right" onClick={ onDelete }/>
+        <Item.Header as="a">Edition { alert.edition_id }</Item.Header>
+        <Item.Meta>
+          <Label>
+            <Icon name="dollar" />{ alert.min_price }
+            <Label.Detail>Alert price</Label.Detail>
+          </Label>
+          <Label color={ current_price > alert.min_price ? 'red' : 'green' }>
+            <Icon name="dollar"/>{ current_price }[fake]
+            <Label.Detail>Current price</Label.Detail>
+          </Label>
+        </Item.Meta>
+        <Item.Description>Additional Details from the NFT data</Item.Description>
+        
+      </Item.Content>
+    </Item>
+  )
+
 }
