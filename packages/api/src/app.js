@@ -3,7 +3,9 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import initAlertsRouter from './routes/alerts.js';
+import initEditionsRouter from './routes/editions.js';
 import { AlertsService } from './services/alertsService.js';
+import { EditionsService } from './services/editionsService.js';
 
 const { json, urlencoded } = pkg;
 
@@ -16,7 +18,12 @@ const initApp = (elasticSearchClient, fcl) => {
   app.use(urlencoded({ extended: false }));
   app.use(
     initAlertsRouter(
-      new AlertsService(elasticSearchClient, fcl),
+      new AlertsService(elasticSearchClient, fcl)
+    )
+  );
+  app.use(
+    initEditionsRouter(
+      new EditionsService(elasticSearchClient)
     )
   );
 

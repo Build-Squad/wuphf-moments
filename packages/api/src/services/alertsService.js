@@ -21,7 +21,7 @@ class AlertsService {
             // keep only the rule matching the address
             ...doc._source.rules.find((rule) => rule.address == address)
           })
-        );
+          );
       }
     }
 
@@ -71,7 +71,7 @@ class AlertsService {
       bool: {
         must: [
           {
-            term: { edition_id }
+            term: { edition_id: edition_id }
           }
         ]
       }
@@ -116,7 +116,7 @@ class AlertsService {
       id: edition_id,
       document: {
         edition_id,
-        rules: [ new_rule ]
+        rules: [new_rule]
       }
     });
 
