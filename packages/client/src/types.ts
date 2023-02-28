@@ -7,3 +7,15 @@ export type User = {
   expiresAt: number | null
   services: any[] | null
 }
+
+export type Alert = {
+  edition_id: number,
+  address: string,
+  min_price: number
+  email: string
+}
+
+export type AlertInstance = {
+  nft_id: number,
+  sale_price: number
+}

@@ -75,10 +75,14 @@ export async function run(connections: any) {
             alert._source.rules.forEach((rule: any) => {
               const listing = availableListings.find((e) => e.editionID === alert._source.edition_id);
               if (listing != undefined && listing.salePrice <= rule.min_price) {
-                let message = `Hey there, ${rule.email}. We just wanted to let you know that the sale price for Edition ${alert._source.edition_id}, is currently at ${listing.salePrice}. View it at https://laligagolazos.com/editions/${alert._source.edition_id} or https://laligagolazos.com/moments/${listing.nftID}`;
+                let message = {
+                  sale_price: listing.salePrice,
+                  edition_id: alert._source.edition_id,
+                  nft_id: listing.nftID
+                };
                 for (const [address, connection] of Object.entries(connections)) {
                   if (rule.address == address) {
-                    (connection as any).send(message);
+                    (connection as any).send(JSON.stringify(message));
                   }
                 }
                 console.log(message);

@@ -52,6 +52,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-scripts: 5.0.1
+      react-use-websocket: ^4.3.1
       semantic-ui-react: ^2.1.4
       typescript: ^4.4.2
       web-vitals: ^2.1.0
@@ -62,6 +63,7 @@ importers:
       fomantic-ui-css: 2.9.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-use-websocket: 4.3.1_biqbaboplfbrettd7655fr4n2y
       semantic-ui-react: 2.1.4_biqbaboplfbrettd7655fr4n2y
       web-vitals: 2.1.4
       websocket: 1.0.34
@@ -8772,6 +8774,16 @@ packages:
       - webpack-hot-middleware
       - webpack-plugin-serve
     dev: true
+
+  /react-use-websocket/4.3.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zHPLWrgcqydJaak2O5V9hiz4q2dwkwqNQqpgFVmSuPxLZdsZlnDs8DVHy3WtHH+A6ms/8aHIyX7+7ulOcrnR0Q==}
+    peerDependencies:
+      react: '>= 18.0.0'
+      react-dom: '>= 18.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

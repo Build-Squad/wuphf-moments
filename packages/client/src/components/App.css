@@ -5,3 +5,26 @@ header {
 aside {
   margin-top: 5vh;
 }
+
+@keyframes alert {
+  0% {
+    background-color: lightyellow;
+  }
+  100% {
+    background-color: yellow;
+  }
+  
+}
+
+aside .ui.items > .item {
+  height: 13em;
+}
+
+aside .ui.items > .item.on-alert {
+  animation: alert 3s ease-in alternate infinite;
+}
+
+aside .ui.items > .item .floated.list {
+  margin-right: 5em;
+  
+}
