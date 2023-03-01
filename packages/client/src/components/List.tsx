@@ -35,7 +35,6 @@ export default function AppList(
   )
 }
 
-
 function OneAlert(
   { alert, alertInstances = [], onDelete, onFlush }:
   { alert: any, alertInstances: AlertInstance[], onDelete: () => void, onFlush: () => void }
@@ -48,16 +47,20 @@ function OneAlert(
       <Item.Image size="tiny" src="/images/wireframe/image.png" alt="Media from the NFT"/>
       <Item.Content>
         <Button.Group vertical floated="right">
-          <Button circular icon='delete' onClick={ onDelete }/>
-          <Button circular icon='cut' onClick={ onFlush }/>
+          <Button circular icon='delete' onClick={ onDelete } title="Remove the alert" />
+          { alertInstances.length !== 0 && 
+            <Button circular icon='broom' onClick={ onFlush } title="Flush the current notifications" />
+          }
         </Button.Group>
-        <InstancesList alertInstances={ alertInstances } />
+        { alertInstances.length !== 0 && 
+          <InstancesList alertInstances={ alertInstances } />
+        }
         <Item.Header 
           as="a"
           target="_blank"
           href={ `https://laligagolazos.com/editions/${ alert.edition_id }` }
         >
-          Edition { alert.edition_id } 
+          Edition { alert.edition_id }
           &nbsp;<Icon name='external' size='small' />
         </Item.Header>
         <Item.Meta>
@@ -71,39 +74,36 @@ function OneAlert(
           </Label>
         </Item.Meta>
         <Item.Description>Additional Details from the NFT data</Item.Description>
-        
       </Item.Content>
     </Item>
   )
-
 }
 
-
 function InstancesList({ alertInstances = []}: { alertInstances: AlertInstance[] }) {
-  if (alertInstances.length == 0) {
-    return <></>
-  } else {
-    return (
-      <List floated="right" size="mini">
-        { alertInstances.slice(0, 5).map((instance, i) => 
-          <List.Item key={ i }>
-            <List.Content>
-              <List.Header  as="a" href={ `https://laligagolazos.com/moments/${instance.nft_id}` }>
-                Serial (or NFT id) { instance.nft_id }
-                &nbsp;<Icon name='external' size='small' />
-              </List.Header>
-              <List.Description>Listed at { instance.sale_price } $</List.Description>
-            </List.Content>
-          </List.Item>
-        ) }
-        { alertInstances.length > 5 && 
-          <List.Item key="more">
-            <List.Content>
-              <List.Header>And { alertInstances.length  - 5 } more …</List.Header>
-            </List.Content>
-          </List.Item>
-        }
-      </List>
-    )
-  }
+  return (
+    <List floated="right" size="mini">
+      { alertInstances.slice(0, 5).map((instance, i) =>
+        <List.Item key={ i }>
+          <List.Content>
+            <List.Header
+              as="a"
+              href={ `https://laligagolazos.com/moments/${instance.nft_id}` }
+              target="_blank"
+            >
+              Serial #{ instance.serial_number }
+              &nbsp;<Icon name='external' size='small' />
+            </List.Header>
+            <List.Description>Listed at { instance.sale_price } $</List.Description>
+          </List.Content>
+        </List.Item>
+      ) }
+      { alertInstances.length > 5 && 
+        <List.Item key="more">
+          <List.Content>
+            <List.Header>And { alertInstances.length  - 5 } more …</List.Header>
+          </List.Content>
+        </List.Item>
+      }
+    </List>
+  )
 }

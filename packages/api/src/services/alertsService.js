@@ -55,7 +55,8 @@ class AlertsService {
 
     const result = await this.client.search({
       index: this.index,
-      query: query
+      query: query,
+      size: 99
     });
 
     return this.finalResut(result, address);

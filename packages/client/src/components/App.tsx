@@ -52,8 +52,7 @@ function App() {
     if(msg === user.addr) {
       console.info(`Listening alerts for user ${user.addr}`)
     } else {
-      const { sale_price, edition_id, nft_id } = JSON.parse(msg)
-      const newInstance: AlertInstance = { nft_id, sale_price }
+      const { edition_id, ...newInstance }: { edition_id: number } & AlertInstance = JSON.parse(msg)
       setAlertInstances({
         ...alertInstances,
         [edition_id]: [

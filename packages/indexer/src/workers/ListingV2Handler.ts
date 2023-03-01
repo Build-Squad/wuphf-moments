@@ -78,7 +78,8 @@ export async function run(connections: any) {
                 let message = {
                   sale_price: listing.salePrice,
                   edition_id: alert._source.edition_id,
-                  nft_id: listing.nftID
+                  nft_id: listing.nftID,
+                  serial_number: listing.serialNumber
                 };
                 for (const [address, connection] of Object.entries(connections)) {
                   if (rule.address == address) {

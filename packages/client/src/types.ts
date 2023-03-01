@@ -18,4 +18,5 @@ export type Alert = {
 export type AlertInstance = {
   nft_id: number,
   sale_price: number
+  serial_number: number
 }

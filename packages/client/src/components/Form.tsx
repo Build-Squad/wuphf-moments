@@ -34,7 +34,7 @@ export default function AppForm(
           <label htmlFor="edition">Edition Id</label>
           <Input 
             type="text" name="edition" id="edition"
-            placeholder="0000"
+            required={ true } placeholder="0000"
             icon="barcode" iconPosition="left" 
           />
         </Form.Field>
@@ -42,7 +42,7 @@ export default function AppForm(
           <label htmlFor="price">Min. price</label>
           <Input 
             type="number" name="price" id="price"
-            step="0.01" min="0"  placeholder="0.0"
+            step="0.01" min="0"  placeholder="0.0" required={ true }
             icon="dollar" iconPosition="left" 
           />
         </Form.Field>
