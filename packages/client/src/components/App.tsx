@@ -97,11 +97,11 @@ function App() {
       <Container textAlign="center" as="header">
         <ConnectWallet user={ user } onUserSet={ setUser } />
       </Container>
-      <Container as="article">
+      <Container as="aside">
         <Form onAlertCreate={ handleCreateAlert }/>
       </Container>
       { alerts.length !== 0 &&
-        <Container as="aside">
+        <Container as="article">
           <List 
             alerts={ alerts }
             alertInstances={ alertInstances }

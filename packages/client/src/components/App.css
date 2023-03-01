@@ -2,7 +2,7 @@ header {
   margin: 5vh 0;
 }
 
-aside {
+article {
   margin-top: 5vh;
 }
 
@@ -16,14 +16,14 @@ aside {
   
 }
 
-aside > .ui.items > .item {
+article > .ui.items > .item {
   height: 13em;
 }
 
-aside > .ui.items > .item.on-alert {
+article > .ui.items > .item.on-alert {
   animation: alert 3s ease-in alternate infinite;
 }
 
-aside > .ui.items > .item .floated.list {
+article > .ui.items > .item .floated.list {
   margin-right: 5em;
 }
