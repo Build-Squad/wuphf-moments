@@ -1,14 +1,25 @@
+import React from 'react'
 import { Item, Message, Icon, Label, Button, List } from 'semantic-ui-react'
 
 import type { Alert, AlertInstance } from '../types'
 
 export default function AppList(
-  { alerts, alertInstances, onDelete, onFlush }:
-  { 
+  {
+    alerts,
+    alertInstances,
+    notificationsEnabled,
+    onDelete,
+    onFlush,
+    onFlushAll,
+    onToggleNotification
+  }: { 
     alerts: Alert[],
     alertInstances: {[key: number]: AlertInstance[]},
+    notificationsEnabled: boolean
     onDelete: (editionId: number) => void,
     onFlush: (editionId: number) => void,
+    onFlushAll: () => void,
+    onToggleNotification: () => void,
   }
 ) {
   return (
@@ -16,10 +27,16 @@ export default function AppList(
       <Message attached icon>
         <Icon name="list" />
         <Message.Content>
+          <Button toggle active={ notificationsEnabled }
+            floated="right"
+            icon='bullhorn'
+            title="Enable desktop notifications when the tab is inactive"
+            onClick={ onToggleNotification }
+          />
           <Message.Header as="h2">
             Your active alerts
           </Message.Header>
-          <p>blah</p>
+          <p>Manage the Editions being tracked</p>
         </Message.Content>
       </Message>
       <Item.Group divided className="attached segment">
@@ -47,10 +64,11 @@ function OneAlert(
       <Item.Image size="tiny" src="/images/wireframe/image.png" alt="Media from the NFT"/>
       <Item.Content>
         <Button.Group vertical floated="right">
-          <Button circular icon='delete' onClick={ onDelete } title="Remove the alert" />
+          <Button icon='delete' onClick={ onDelete } title="Remove the alert" />
           { alertInstances.length !== 0 && 
-            <Button circular icon='broom' onClick={ onFlush } title="Flush the current notifications" />
+            <Button icon='broom' onClick={ onFlush } title="Flush the current notifications" />
           }
+          
         </Button.Group>
         { alertInstances.length !== 0 && 
           <InstancesList alertInstances={ alertInstances } />
