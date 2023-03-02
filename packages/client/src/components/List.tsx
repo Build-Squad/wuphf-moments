@@ -9,7 +9,7 @@ export default function AppList(
     alertInstances,
     notificationsEnabled,
     onDelete,
-    onFlush,
+    onFlushEdition,
     onFlushAll,
     onToggleNotification
   }: { 
@@ -17,7 +17,7 @@ export default function AppList(
     alertInstances: {[key: number]: AlertInstance[]},
     notificationsEnabled: boolean
     onDelete: (editionId: number) => void,
-    onFlush: (editionId: number) => void,
+    onFlushEdition: (editionId: number) => void,
     onFlushAll: () => void,
     onToggleNotification: () => void,
   }
@@ -27,12 +27,16 @@ export default function AppList(
       <Message attached icon>
         <Icon name="list" />
         <Message.Content>
-          <Button toggle active={ notificationsEnabled }
-            floated="right"
-            icon='bullhorn'
-            title="Enable desktop notifications when the tab is inactive"
-            onClick={ onToggleNotification }
-          />
+          <Button.Group floated="right">
+            { Object.keys(alertInstances).length !== 0 && 
+              <Button icon='broom' floated="right" onClick={ onFlushAll } title="Flush all the current notifications" />
+            }
+            <Button toggle active={ notificationsEnabled }
+              icon='bullhorn'
+              title="Enable desktop notifications when the tab is inactive"
+              onClick={ onToggleNotification }
+            />
+          </Button.Group>
           <Message.Header as="h2">
             Your active alerts
           </Message.Header>
@@ -45,7 +49,7 @@ export default function AppList(
           alert={ alert }
           alertInstances={ alertInstances[alert.edition_id] }
           onDelete={ () => onDelete(alert.edition_id) }
-          onFlush={ () => onFlush(alert.edition_id) }
+          onFlush={ () => onFlushEdition(alert.edition_id) }
         />) }
       </Item.Group>
     </>
@@ -68,7 +72,6 @@ function OneAlert(
           { alertInstances.length !== 0 && 
             <Button icon='broom' onClick={ onFlush } title="Flush the current notifications" />
           }
-          
         </Button.Group>
         { alertInstances.length !== 0 && 
           <InstancesList alertInstances={ alertInstances } />
