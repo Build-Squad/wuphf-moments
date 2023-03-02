@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'semantic-ui-react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { usePageVisibility } from 'react-page-visibility'
 
 
 import 'fomantic-ui-css/semantic.css'
@@ -25,6 +26,8 @@ function App() {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [alertInstances, setAlertInstances] = useState<{[key: number]: AlertInstance[]}>({})
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(Notification.permission === 'granted')
+  const [activeNotifications, setActiveNotifications] = useState<{[key: number]: Notification}>({})
+  const isPageVisible = usePageVisibility()
   
   const handleFetchAlerts = (userAddress: string) => {
     fetchAlerts(userAddress as string)
@@ -54,24 +57,43 @@ function App() {
   const handleIncomingAlert = (msg: string) => {
     if(msg === user.addr) {
       console.info(`Listening alerts for user ${user.addr}`)
-    } else {
-      const { edition_id, ...newInstance }: { edition_id: number } & AlertInstance = JSON.parse(msg)
-      console.info(`Incomoing alert for Edition '${edition_id}'`)
-      setAlertInstances({
-        ...alertInstances,
-        [edition_id]: [
-          newInstance,
-          ...(alertInstances[edition_id] ?? [])
-        ] 
-      })
-      if (notificationsEnabled) {
-        const myNotification = new Notification(
-          `Edition ${edition_id}`,
-          {
-            body: `has been listed for ${newInstance.sale_price} $`
-          }
-        )
+      return
+    } 
+    const { edition_id, ...newInstance }: { edition_id: number } & AlertInstance = JSON.parse(msg)
+    console.info(`Incoming alert for Edition '${edition_id}'`)
+    
+    const pendingInstances = [
+      newInstance,
+      ...(alertInstances[edition_id] ?? [])
+    ]
+    // store in state
+    setAlertInstances({
+      ...alertInstances,
+      [edition_id]: pendingInstances
+    })
+
+    if (notificationsEnabled && !isPageVisible) {
+      // duplicate as browser notification
+      let body: string
+      // Despite the previous call to setAlertInstances, alertInstances state has not yet been updated
+      if (pendingInstances.length === 1) {
+        body = `has been listed for ${newInstance.sale_price} $`
+      } else {
+        const lowestPrice = pendingInstances.reduce((acc, notif) => Math.min(acc, notif.sale_price), +Infinity)
+        body = `has been listed ${pendingInstances.length} times for a lowest price of ${lowestPrice} $`
       }
+      console.log({
+          body,
+          tag: edition_id.toString()
+        })
+      const notification = new Notification(
+        `Edition ${edition_id}`,
+        {
+          body,
+          tag: edition_id.toString()
+        }
+      )
+      setActiveNotifications({ ...activeNotifications, [edition_id]: notification })
     }
   }
   
@@ -117,6 +139,13 @@ function App() {
       sendMessage(user.addr)
     }
   }, [user.addr, readyState])
+
+  useEffect(() => {
+    if (isPageVisible) {
+      Object.values(activeNotifications).forEach((notification) => notification.close())
+      setActiveNotifications({})
+    } 
+  }, [isPageVisible])
   
   return (
     <>
