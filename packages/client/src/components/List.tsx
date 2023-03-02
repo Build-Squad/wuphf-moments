@@ -9,7 +9,7 @@ export default function AppList(
     alertInstances,
     notificationsEnabled,
     onDelete,
-    onFlush,
+    onFlushEdition,
     onFlushAll,
     onToggleNotification
   }: { 
@@ -17,7 +17,7 @@ export default function AppList(
     alertInstances: {[key: number]: AlertInstance[]},
     notificationsEnabled: boolean
     onDelete: (editionId: number) => void,
-    onFlush: (editionId: number) => void,
+    onFlushEdition: (editionId: number) => void,
     onFlushAll: () => void,
     onToggleNotification: () => void,
   }
@@ -45,7 +45,7 @@ export default function AppList(
           alert={ alert }
           alertInstances={ alertInstances[alert.edition_id] }
           onDelete={ () => onDelete(alert.edition_id) }
-          onFlush={ () => onFlush(alert.edition_id) }
+          onFlush={ () => onFlushEdition(alert.edition_id) }
         />) }
       </Item.Group>
     </>
