@@ -16,7 +16,6 @@ services:
         hard: 65535
     ports:
       - 9200:9200
-      - 9300:9300
     volumes:
       - storefrontdata:/usr/share/elasticsearch/data
     networks:
